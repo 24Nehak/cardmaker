@@ -4,6 +4,7 @@ const DynamicForm = () => {
     const [studName, setStudName] = useState();
     const handleChange = (e: any) =>{
         console.log(e.target.value);
+        console.log(e.target.value);
     }
   return (
     <div>
