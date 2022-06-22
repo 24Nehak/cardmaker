@@ -9,6 +9,7 @@ import CardContext from './context/cardContext';
 function App() {
   const [fileName, setfileName] = useState(null);
   const [column, setColumn] = useState<any>([]);
+  const [firstRow, setFirstRow] = useState([]);
   const [imageValue, setImageValue] = useState({
     width:'0',
     height:'0',
@@ -21,7 +22,7 @@ function App() {
   });
   return (
     <div className="App">
-      <CardContext.Provider value={{setfileName,setColumn, column, fileName, setImageValue, imageValue,fieldValue, setFieldValue }}>
+      <CardContext.Provider value={{firstRow, setFirstRow,setfileName,setColumn, column, fileName, setImageValue, imageValue,fieldValue, setFieldValue }}>
       <Home />
       </CardContext.Provider>
     </div>
