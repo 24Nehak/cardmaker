@@ -4,7 +4,6 @@ import Preview from '../Preview/Preview';
 
 
 const Home = () => {
-    const [fileName, setfileName] = useState(null);
   return (
     <div style={{ display: 'flex', justifyContent: 'space-between', padding: '20px'}}>
     <div style={{flex: 1, margin: '10px' , }}>

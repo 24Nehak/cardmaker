@@ -1,11 +1,12 @@
 import { url } from 'inspector';
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import * as XLSX from 'xlsx';
 import idCard from '../../assets/images/IdCard.jpg';
+import cardContext from '../../context/cardContext';
 
 const DynamicForm = () => {
-    const [fileName, setfileName] = useState(null);
-    const [column, setColumn] = useState<any>([]);
+   const {setColumn , setfileName, column,fileName, imageValue, setImageValue, fieldValue, setFieldValue} = useContext(cardContext);
+    
     const handleFile = async(e:any) => {
         const file = e.target.files[0];
         setfileName(file.name);
@@ -18,13 +19,34 @@ const DynamicForm = () => {
         setColumn(jsonData[0]);
     }
 
+    const handleInputImage = (e:any) =>{
+        console.log(e.target.value);
+        const name =  e.target.name;
+        const value = e.target.value;
+        setImageValue({...imageValue, [name]: value});
+    }
+
+    const handleSubmit = (e:any) =>{
+        e.preventDefault();
+         
+    }
+
+    const handleInputField = (e:any) =>{
+        const name =  e.target.name;
+        const value = e.target.value;
+        setFieldValue({...fieldValue, [name]: value});
+    }
+   
+
     const generateImageInputFields = () => {
         return (
             <>
-            <input type="number" placeholder='height' />
-            <input type="number" placeholder='width'/>
-            <input type="number" placeholder='margin top'/> 
-            <input type="number" placeholder='margin left'/>
+            <form onSubmit={handleSubmit}>
+            <input type="number"  value={imageValue.width} name="width" placeholder='width'onChange={handleInputImage}/>
+            <input type="number"  value={imageValue.height} name="height" placeholder='height' onChange={handleInputImage} />
+            <input type="number" value={imageValue.marginTop} name="marginTop" placeholder='margin top' onChange={handleInputImage}/> 
+            <input type="number"  value={imageValue.marginLeft} name="marginLeft" placeholder='margin left' onChange={handleInputImage}/>
+            </form>
             </>
         )
     } 
@@ -32,7 +54,10 @@ const DynamicForm = () => {
     const generateTextInputFields = () => {
         return (
             <>
-            <input type="number" />  <input type="number"/>  <input type="number"/>  <button>I</button>
+            <input type="number"  value={fieldValue.marginTop} name="marginTop" placeholder='marginTop'onChange={handleInputField} />
+            <input type="number"  value={fieldValue.marginLeft} name="marginLeft" placeholder='marginLeft'onChange={handleInputField}/>
+            {/* <input type="number"  value={fieldValue.width} name="width" placeholder='width'onChange={handleInputImage}/> */}
+            <button>I</button>
             <button>B</button>
             </>
         )
@@ -44,13 +69,9 @@ const DynamicForm = () => {
         <div>
         <p>FileName:<span> {fileName} </span> </p>
         <div  style={{width: '800px',height: '500px',  border: '1px solid black'}}>{column.map((ele:any)=>(
-            // <div style={{backgroundImage:`url(${idCard})`, width: '820px', height: '1600px'}}>
                 <div>{ele}{ele && ele === 'image' ? generateImageInputFields(): generateTextInputFields() }
                  </div>
-                // {/* <div style={{position: 'absolute',marginTop: 700, marginLeft:200}}>{ele[0]}</div>
-                // <div style={{position: 'absolute',marginTop: 800, marginLeft:200}}>{ele[1]}</div>
-                // <div style={{position: 'absolute',marginTop: 900, marginLeft:200}}>{ele[2]}</div> */}
-            // </div>
+                
         ))}</div>
         </div>
     )}
