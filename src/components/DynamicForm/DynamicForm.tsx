@@ -5,7 +5,7 @@ import idCard from '../../assets/images/IdCard.jpg';
 import cardContext from '../../context/cardContext';
 
 const DynamicForm = () => {
-   const {imagePath,setImagePath, photo, setPhoto, columnValue, setColumnValue, firstRow, setFirstRow,setColumn , setfileName, column,fileName, imageValue, setImageValue, fieldValue, setFieldValue} = useContext(cardContext);
+   const {photoLocation, setPhotoLocation, imagePath,setImagePath, photo, setPhoto, columnValue, setColumnValue, firstRow, setFirstRow,setColumn , setfileName, column,fileName, imageValue, setImageValue, fieldValue, setFieldValue} = useContext(cardContext);
     // useEffect(()=>{
     //     console.log("*******",Object.keys(column));
     // },[column]);
@@ -22,10 +22,9 @@ const DynamicForm = () => {
         setColumn(jsonData[0]);
         setColumnValue(jsonData);
         // setFirstRow(Object.keys(jsonData));
-     
         // console.log("Object.keys(column[0]",Object.keys(jsonData));
     }
-
+    
     const onChangeHandler = (e:any) =>{
         const [file] = e.target.files;
         const reader = new FileReader();
@@ -35,11 +34,20 @@ const DynamicForm = () => {
           const wsname = wb.SheetNames[0];
           const ws = wb.Sheets[wsname];
           const data = XLSX.utils.sheet_to_json(ws);
+          setColumn(data);
+          setColumnValue(data[0]);
           console.log(data);
+
         };
         reader.readAsBinaryString(file);
     }
 
+    const fetchPhotoLocation =(e:any) =>{
+    //    const value = e.target.value;
+       var path = (window.URL || window.webkitURL).createObjectURL(e.target.files[0]);
+       console.log('path', path);
+       setPhotoLocation(path);
+    }
 
     const handleInputImage = (e:any) =>{
         console.log(e.target.value);
@@ -59,28 +67,39 @@ const DynamicForm = () => {
         setFieldValue({...fieldValue, [name]: value});
     }
 
+    const onChangeHandlerBGPhoto = (e:any) => {
+        console.log("image",e);
+        const files = e.target.files;
+        console.log("files[0]", files[0])
+        console.log("URL",URL.createObjectURL(files[0]))
+        setPhoto(URL.createObjectURL(files[0]));
+
+    }
+
     const onChangeHandlerPhoto = (e:any) => {
         console.log("image",e);
         const files = e.target.files;
-        // console.log('file',file);
-        // setPhoto(URL.createObjectURL(file));
-        // setPhoto(URL.createObjectURL(file));
+        console.log('file',files);
 
         const tempArr:any = [];
+        [...files].forEach(file => {
+            console.log("file >>> ", file);
+            tempArr.push({
+            data: file,
+            url: URL.createObjectURL(file)
+        });
+        console.log("pictures >> ", photo);
+        });
+        setPhoto(tempArr);
+        combinePhotoArrayTOJson(tempArr);
+       
+    }
 
-  [...files].forEach(file => {
-    console.log("file >>> ", file);
+    const combinePhotoArrayTOJson = (arr:any) => {
+        console.log("tempArr >> ", arr," & column >> ", column);
 
-    tempArr.push({
-      data: file,
-      url: URL.createObjectURL(file)
-    });
-
-    console.log("pictures >> ", photo);
-  });
-
-  setPhoto(tempArr);
-
+        const newArr =  column.map((t1:any) => ({...t1, ...arr.find((t2:any) => t2.data.name.split(".")[0] == t1.rollNumber)}))
+        console.log("newArr >> ", newArr);
     }
    
 
@@ -110,9 +129,10 @@ const DynamicForm = () => {
     }
     
   return (
-    <div>
-    <input type='file' onChange={(e:any)=>onChangeHandler(e)} />
-    <input type='file' multiple onChange={(e:any)=>onChangeHandlerPhoto(e)} />
+    <div> 
+    <input type='file' id="excel" placeholder="upload excel" onChange={(e:any)=>onChangeHandler(e)} style={{display:"block"}}/>
+    <input type='file' id="background" placeholder="upload background" onChange={(e:any)=>onChangeHandlerBGPhoto(e)} />
+    <input type='file' id="uplaodMultiplePhoto" multiple onChange={(e:any)=>onChangeHandlerPhoto(e)} />
     <div>
         
     </div>

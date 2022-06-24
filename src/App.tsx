@@ -13,6 +13,7 @@ function App() {
   const [firstRow, setFirstRow] = useState([]);
   const [photo, setPhoto] = useState();
   const [imagePath,setImagePath] = useState();
+  const [photoLocation, setPhotoLocation] = useState();
   const [imageValue, setImageValue] = useState({
     width:'0',
     height:'0',
@@ -25,7 +26,7 @@ function App() {
   });
   return (
     <div className="App">
-      <CardContext.Provider value={{imagePath,setImagePath, photo, setPhoto,columnValue, setColumnValue, firstRow, setFirstRow,setfileName,setColumn, column, fileName, setImageValue, imageValue,fieldValue, setFieldValue }}>
+      <CardContext.Provider value={{photoLocation, setPhotoLocation, imagePath,setImagePath, photo, setPhoto,columnValue, setColumnValue, firstRow, setFirstRow,setfileName,setColumn, column, fileName, setImageValue, imageValue,fieldValue, setFieldValue }}>
       <Home />
       </CardContext.Provider>
     </div>

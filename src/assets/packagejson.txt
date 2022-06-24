@@ -1,0 +1,2 @@
+"dev": "concurrently -k \"cross-env BROWSER=none npm start\" \"npm:electron\"",
+    "electron": "wait-on tcp:3000 && electron ."
