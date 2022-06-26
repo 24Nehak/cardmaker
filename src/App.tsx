@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import Home from './components/Home/Home';
 import CardContext from './context/cardContext';
 
-
-
 function App() {
   const [fileName, setfileName] = useState(null);
+  const [freeze, setFreeze] = useState(null);
   const [column, setColumn] = useState<any>([]);
+  const [updatedSheet, setUpdatedSheet] = useState();
   const [columnValue, setColumnValue] = useState();
   const [firstRow, setFirstRow] = useState([]);
   const [photo, setPhoto] = useState();
@@ -20,17 +19,41 @@ function App() {
     marginTop:"0",
     marginLeft:"0"
   });
-  const [fieldValue, setFieldValue] = useState({
-    marginTop:'',
-    marginLeft:''
-  });
+
+  const [fieldValue, setFieldValue] = useState();
+  const storeValue = {
+    freeze, 
+    setFreeze,
+    updatedSheet, 
+    setUpdatedSheet, 
+    photoLocation, 
+    setPhotoLocation, 
+    imagePath,
+    setImagePath, 
+    photo, 
+    setPhoto,
+    columnValue, 
+    setColumnValue, 
+    firstRow, 
+    setFirstRow,
+    setfileName,
+    setColumn, 
+    column, 
+    fileName, 
+    setImageValue, 
+    imageValue,
+    fieldValue, 
+    setFieldValue 
+  }
+
   return (
     <div className="App">
-      <CardContext.Provider value={{photoLocation, setPhotoLocation, imagePath,setImagePath, photo, setPhoto,columnValue, setColumnValue, firstRow, setFirstRow,setfileName,setColumn, column, fileName, setImageValue, imageValue,fieldValue, setFieldValue }}>
+      <CardContext.Provider value={storeValue}>
       <Home />
       </CardContext.Provider>
     </div>
   );
+
 }
 
 export default App;

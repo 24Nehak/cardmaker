@@ -5,7 +5,7 @@ import idCard from '../../assets/images/IdCard.jpg';
 import cardContext from '../../context/cardContext';
 
 const DynamicForm = () => {
-   const {photoLocation, setPhotoLocation, imagePath,setImagePath, photo, setPhoto, columnValue, setColumnValue, firstRow, setFirstRow,setColumn , setfileName, column,fileName, imageValue, setImageValue, fieldValue, setFieldValue} = useContext(cardContext);
+   const {updatedSheet, setUpdatedSheet, photoLocation, setPhotoLocation, imagePath,setImagePath, photo, setPhoto, columnValue, setColumnValue, firstRow, setFirstRow,setColumn , setfileName, column,fileName, imageValue, setImageValue, fieldValue, setFieldValue} = useContext(cardContext);
     // useEffect(()=>{
     //     console.log("*******",Object.keys(column));
     // },[column]);
@@ -35,18 +35,10 @@ const DynamicForm = () => {
           const ws = wb.Sheets[wsname];
           const data = XLSX.utils.sheet_to_json(ws);
           setColumn(data);
-          setColumnValue(data[0]);
           console.log(data);
 
         };
         reader.readAsBinaryString(file);
-    }
-
-    const fetchPhotoLocation =(e:any) =>{
-    //    const value = e.target.value;
-       var path = (window.URL || window.webkitURL).createObjectURL(e.target.files[0]);
-       console.log('path', path);
-       setPhotoLocation(path);
     }
 
     const handleInputImage = (e:any) =>{
@@ -97,11 +89,14 @@ const DynamicForm = () => {
 
     const combinePhotoArrayTOJson = (arr:any) => {
         console.log("tempArr >> ", arr," & column >> ", column);
-
-        const newArr =  column.map((t1:any) => ({...t1, ...arr.find((t2:any) => t2.data.name.split(".")[0] == t1.rollNumber)}))
+        const newArr =  column.map((t1:any) => ({...t1, ...arr.find((t2:any) => t2.data.name.split(".")[0] == t1.rollNumber)}));
+        setColumnValue(newArr[0]);
+        setUpdatedSheet(newArr)
         console.log("newArr >> ", newArr);
+        const getkeys = Object.keys(newArr[0]);
+        const getvalues = Object.values(newArr[0]);
+        console.log("getkeys >> ", getkeys,"getvalues >> ", getvalues);
     }
-   
 
     const generateImageInputFields = () => {
         return (
