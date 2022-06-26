@@ -1,7 +1,6 @@
 import { url } from 'inspector';
 import React, { useState, useContext, useEffect } from 'react';
 import * as XLSX from 'xlsx';
-import idCard from '../../assets/images/IdCard.jpg';
 import cardContext from '../../context/cardContext';
 
 const DynamicForm = () => {
@@ -136,7 +135,7 @@ const DynamicForm = () => {
         <div>
         <p>FileName:<span> {fileName} </span> </p>
        
-        <div  style={{width: '800px',height: '500px',  border: '1px solid black'}}>{column.map((ele:any, index: any)=>{
+        <div  style={{width: '500px',height: '500px',  border: '1px solid black'}}>{column.map((ele:any, index: any)=>{
                 // if(index === 0){
                 //     let arr = [];
                 //     for( const item in ele){

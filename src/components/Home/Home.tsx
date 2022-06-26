@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import ActionBox from '../ActionBox/ActionBox';
 import DynamicForm from '../DynamicForm/DynamicForm';
 import Preview from '../Preview/Preview';
 
@@ -12,6 +13,9 @@ const Home = () => {
     <div style={{flex: 1}}>
         Preview
         <Preview ></Preview>
+    </div>
+    <div>
+    <ActionBox />
     </div>
     </div>
   )
